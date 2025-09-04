@@ -15,7 +15,7 @@ creds_dict = json.loads(st.secrets["GCP_SERVICE_ACCOUNT"])
 scope = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_info(creds_dict), scopes=scope
+creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
 client = gspread.authorize(creds)
 
 # Mở Google Sheet
@@ -106,6 +106,7 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
 
