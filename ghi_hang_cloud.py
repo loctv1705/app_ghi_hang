@@ -8,18 +8,11 @@ import re, os, json
 # --- Kết nối Google Sheets ---
 SHEET_ID = "1aU9gv0ZUgLqgHA5uYL8t61yp4_hXvvwQeVh66pB4sMo"  # <- thay bằng ID Google Sheet của bạn
 
-try:
-    creds_dict = json.loads(st.secrets["GCP_SERVICE_ACCOUNT"])
-    st.write("✅ Secrets đã load thành công!")
-    st.write("Các key trong secrets:", list(creds_dict.keys()))
-except Exception as e:
-    st.error(f"❌ Lỗi load secrets: {e}")
-
-creds_dict = json.loads(st.secrets["GCP_SERVICE_ACCOUNT"])
+creds_dict = st.secrets["gcp_service_account"]
 scope = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
+creds = Credentials.from_service_account_info(dict(creds_dict), scopes=scope)
 client = gspread.authorize(creds)
 
 # Mở Google Sheet
@@ -109,4 +102,5 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
