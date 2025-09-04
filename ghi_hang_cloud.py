@@ -4,13 +4,15 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import re
+import os, json
 
 # --- Kết nối Google Sheets ---
 SHEET_ID = "1aU9gv0ZUgLqgHA5uYL8t61yp4_hXvvwQeVh66pB4sMo"  # <- thay bằng ID Google Sheet của bạn
-SERVICE_FILE = "ghihang-71a9f2bdb846.json"  # file credentials tải từ Google Cloud
+#SERVICE_FILE = "ghihang-71a9f2bdb846.json"  # file credentials tải từ Google Cloud
 
+creds_dict = json.loads(os.environ["GCP_SERVICE_ACCOUNT"])
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_FILE, scope)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
 # Mở Google Sheet
@@ -101,3 +103,4 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
