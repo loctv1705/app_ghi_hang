@@ -3,7 +3,7 @@ import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
-import re
+import re, pytz
 
 # --- Kết nối Google Sheets ---
 SHEET_ID = "1aU9gv0ZUgLqgHA5uYL8t61yp4_hXvvwQeVh66pB4sMo"  # <- thay bằng ID Google Sheet của bạn
@@ -19,7 +19,8 @@ client = gspread.authorize(creds)
 sheet = client.open_by_key(SHEET_ID)
 
 st.title("📦 Ghi số lượng hàng hóa mỗi ngày")
-thoi_gian = datetime.now().strftime("%d/%m/%Y %H:%M")
+vn_tz = pytz.timezone("Asia/Ho_Chi_Minh")
+thoi_gian = datetime.now(vn_tz).strftime("%d/%m/%Y %H:%M")
 st.write("🕒 Ngày giờ:", thoi_gian)
 
 nguon_hang = st.selectbox("Nhà:", ['Khang', 'Tú Thảo', 'Đạt', 'Ái'])
@@ -102,6 +103,7 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
 
