@@ -8,7 +8,6 @@ import os, json
 
 # --- Kết nối Google Sheets ---
 SHEET_ID = "1aU9gv0ZUgLqgHA5uYL8t61yp4_hXvvwQeVh66pB4sMo"  # <- thay bằng ID Google Sheet của bạn
-#SERVICE_FILE = "ghihang-71a9f2bdb846.json"  # file credentials tải từ Google Cloud
 
 creds_dict = json.loads(st.secrets["GCP_SERVICE_ACCOUNT"])
 scope = [
@@ -104,6 +103,7 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
 
