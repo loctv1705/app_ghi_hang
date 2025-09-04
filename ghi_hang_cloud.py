@@ -75,21 +75,12 @@ if st.button("Ghi dữ liệu"):
         try:
             worksheet = sheet.worksheet(nguon_hang)
         except gspread.exceptions.WorksheetNotFound:
-            # Nếu chưa có, tạo mới
+            # Nếu chưa có, tạo mới và thêm header
             worksheet = sheet.add_worksheet(title=nguon_hang, rows="1000", cols="20")
-            worksheet.append_row(new_data.columns.tolist())  # thêm header
+            worksheet.append_row(new_data.columns.tolist())  
 
-        # Lấy dữ liệu cũ
-        data = worksheet.get_all_records()
-        df_old = pd.DataFrame(data)
-
-        # Ghép thêm dữ liệu mới
-        df = pd.concat([df_old, new_data], ignore_index=True)
-
-        if len(worksheet.get_all_records()) == 0:
-            worksheet.append_row(new_data.columns.tolist())  # Thêm header nếu trống
-
-        worksheet.append_row(new_data.values.tolist()[0])  # Ghi thêm 1 dòng mới
+        # Chỉ append dữ liệu mới, không append header nữa
+        worksheet.append_row(new_data.values.tolist()[0])  
 
         st.success("✅ Đã ghi dữ liệu vào Google Sheets!")
     except Exception as e:
@@ -103,6 +94,7 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
 
