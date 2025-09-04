@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 from google.oauth2.service_account import Credentials
 from datetime import datetime
 import re
@@ -88,11 +87,10 @@ if st.button("Ghi dữ liệu"):
         # Ghép thêm dữ liệu mới
         df = pd.concat([df_old, new_data], ignore_index=True)
 
-        # Clear sheet cũ
-        worksheet.clear()
+        if len(worksheet.get_all_records()) == 0:
+            worksheet.append_row(new_data.columns.tolist())  # Thêm header nếu trống
 
-        # Ghi lại dữ liệu mới
-        worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+        worksheet.append_row(new_data.values.tolist()[0])  # Ghi thêm 1 dòng mới
 
         st.success("✅ Đã ghi dữ liệu vào Google Sheets!")
     except Exception as e:
@@ -106,6 +104,7 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
 
