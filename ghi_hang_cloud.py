@@ -53,7 +53,7 @@ def ghi_hang(nguon_hang=nguon_hang):
         truong = None
     ghi_chu = st.text_input("Ghi chú (tùy chọn):")
 
-    now = datetime.now()
+    now = datetime.now(vn_tz)
     ngay = now.strftime('%d/%m/%Y')
     gio = now.strftime('%H:%M:%S')
 
@@ -103,6 +103,7 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
 
