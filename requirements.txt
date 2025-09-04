@@ -2,4 +2,4 @@ streamlit
 datetime
 pandas
 gspread
-google-auth
+google
