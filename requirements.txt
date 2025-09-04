@@ -1,0 +1,6 @@
+streamlit
+datetime
+pandas
+gspread
+oauth2client
+re
