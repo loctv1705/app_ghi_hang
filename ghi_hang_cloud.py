@@ -12,7 +12,7 @@ SHEET_ID = "1aU9gv0ZUgLqgHA5uYL8t61yp4_hXvvwQeVh66pB4sMo"  # <- thay bằng ID G
 
 creds_dict = json.loads(st.secrets["GCP_SERVICE_ACCOUNT"])
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+creds = Credentials.from_service_account_info(creds_dict), scopes=scope
 client = gspread.authorize(creds)
 
 # Mở Google Sheet
@@ -103,5 +103,6 @@ if st.button("Xem dữ liệu"):
         st.dataframe(df)
     except gspread.exceptions.WorksheetNotFound:
         st.warning("⚠️ Sheet chưa có dữ liệu!")
+
 
 
