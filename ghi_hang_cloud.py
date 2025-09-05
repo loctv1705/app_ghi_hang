@@ -40,7 +40,7 @@ if check_password():
     # Mở Google Sheet
     sheet = client.open_by_key(SHEET_ID)
     
-    st.title("📦 Ghi số lượng hàng hóa mỗi ngày")
+    st.title("📦 Ghi số lượng hàng")
     vn_tz = pytz.timezone("Asia/Ho_Chi_Minh")
     thoi_gian = datetime.now(vn_tz).strftime("%d/%m/%Y %H:%M")
     st.write("🕒 Ngày giờ:", thoi_gian)
@@ -116,3 +116,4 @@ if check_password():
             st.dataframe(df)
         except gspread.exceptions.WorksheetNotFound:
             st.warning("⚠️ Sheet chưa có dữ liệu!")
+
